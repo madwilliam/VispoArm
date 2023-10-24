@@ -3,15 +3,11 @@ import matplotlib.pyplot as plt
 # from drawnow import *
 import serial
 import numpy as np
-val = [ ]
-cnt = 0
-sampling_rate_hz = 2000 
-duration_s = 3
-nsamples = duration_s*sampling_rate_hz
-data_stream = np.zeros(nsamples)
+
+data_stream = []
 port = serial.Serial('/dev/tty.usbserial-B00054LQ', 115200, timeout=0.5)
 print('recording')
-for i in range(nsamples):
+while True:
     port.write(b's') #handshake with Arduino
     if (port.inWaiting()):# if the arduino replies
         data_stream = np.roll(data_stream,1,0)
