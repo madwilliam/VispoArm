@@ -9,9 +9,7 @@ class ArduinoInterface:
         self.port.write(b's') 
         try:
             value = self.port.readline()
-            # value = value.decode('unicode_escape')
-            value = int.from_bytes(value, byteorder='big', signed=True)
+            value = int(value.decode())
         except:
             value = None
-        time.sleep(0.001)
         return value
