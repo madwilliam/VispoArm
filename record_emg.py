@@ -1,4 +1,4 @@
-
+list
 import time
 import serial
 import csv
@@ -6,9 +6,10 @@ import subprocess
 import os
 from threading import Thread
 import sys
+from subprocess import Popen, PIPE
 
 def write_to_csv(file_name):
-    port = serial.Serial('COM7', 9600, timeout=0.5)
+    port = serial.Serial('/dev/tty.usbserial-B00054LQ', 9600, timeout=0.5)
     time.sleep(0.1)
     data = []
     file = open(file_name, 'w', newline='')
@@ -36,7 +37,7 @@ def next_name(path,file_name):
         return new_file_name
 
 while True:
-    path = r'C:\Users\madwill\Desktop\data'
+    path = r'/Users/william/Desktop/data/emg'
     duration = input('Enter recording length \n')
     type = input('Enter recording type: flexion 0 extention 1 \n')
     duration = int(duration)
@@ -48,6 +49,7 @@ while True:
     name = next_name(path,name)
     full_path = os.path.join(path,name+'.csv')
     script_directory = os.path.dirname(os.path.abspath(sys.argv[0]))
-    p = subprocess.Popen(f"python {script_directory}\write_to_csv.py {full_path}")
+    script_path = f"{os.path.join(script_directory,'write_to_csv.py')}"
+    p = Popen(["python",script_path,full_path], stdout=PIPE, stderr=PIPE)
     time.sleep(duration)
     p.kill()    

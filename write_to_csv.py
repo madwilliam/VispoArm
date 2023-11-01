@@ -4,7 +4,7 @@ import csv
 import argparse
 
 def write_to_csv(file_name):
-    port = serial.Serial('COM7', 9600, timeout=0.5)
+    port = serial.Serial('/dev/tty.usbserial-B00054LQ', 9600, timeout=0.5)
     time.sleep(0.1)
     data = []
     file = open(file_name, 'w', newline='')
